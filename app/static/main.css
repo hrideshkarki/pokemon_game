@@ -1,0 +1,70 @@
+body {
+    background-color: #e0e2f1;
+    
+  }
+
+
+  form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  form {
+    box-shadow: 0px 0px 10px #888888;
+    padding: 100px;
+  }
+
+
+  input[type=text] {
+    border: none;
+    border-bottom: 2px solid #4285F4;
+    padding: 10px;
+    font-size: 16px;
+    width: 300px;
+  }
+
+  input[type=submit] {
+    background-color: #4285F4;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  input[type=submit]:hover {
+
+    background-color: #2e68b2;
+  }
+
+  span {
+    display: block;
+    margin-top: 10px;
+    text-align: center;
+    color: #db4437;
+  }
+
+
+  .card {
+    background-color: #d4dfef;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.4);
+    transition: box-shadow 0.3s ease-in-out;
+    margin-top: 7vw;
+  }
+
+  .card:hover {
+    background-image: "/Users/hridesh/Documents/Padwans115/Week5/pokemon_venv/481903.png";
+    box-shadow: 0px 0px 20px rgba(255, 192, 2, 0.917);
+  }
+
+  .list-group-item {
+    background: linear-gradient(to bottom, rgba(147, 216, 109, 0.977), rgba(237, 225, 173, 0.5));
+
+  }

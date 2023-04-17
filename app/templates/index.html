@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="main.css" />
+    <title>Pokemon App</title>
+    <style>
+      
+    </style>
+     
+  </head>
+  <body>
+    {% extends 'base.html' %}
+
+    {% block content %}
+    
+    <h1 align="center">Pokemon App</h1>
+    <form align="center" method="POST">
+      {{ form.csrf_token }}
+      {{ form.pokemon_name.label }} {{ form.pokemon_name }}
+      {% for error in form.pokemon_name.errors %}
+        <span>{{ error }}</span>
+      {% endfor %}
+      <br>
+      {{ form.submit }}
+
+      {% endblock %}
+    </form>
+  </body>
+</html>

@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Home</title>
+    {% extends 'base.html' %}
+
+    {% block content %}
+    <style>
+      a {
+        text-decoration: none;
+      }
+      body {
+        background-image: url({{ url_for('static', filename='2.jpg') }});
+        background-size: cover;
+        height: 500%;
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        font-size: 300%;
+      }
+      body {
+
+        }
+    </style>
+
+
+
+  </head>
+  <body> 
+    <h1 align="center"><a href="/search">Welcome to the world of POKEMON!</a></h1>
+    {% endblock %}
+  </body>
+</html>
