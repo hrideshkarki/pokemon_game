@@ -20,15 +20,42 @@
         font-size: 300%;
       }
       body {
+        position: relative;
+      }
+      #flying-object {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 200px;
+        width: 200px;
+        background-color: blue;
+        border-radius: 100%;
+        opacity: 0.3;
+        animation-name: fly;
+        animation-duration: 15s;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+      }
 
+      @keyframes fly {
+        0% {
+          transform: translate(0, 0);
         }
+        50% {
+          transform: translate(80vw, 80vh);
+        }
+        100% {
+          transform: translate(0, 0);
+        }
+      }
     </style>
-
-
-
   </head>
   <body> 
-    <h1 align="center"><a href="/search">Welcome to the world of POKEMON!</a></h1>
+    <a href="/search">
+      <div id="flying-object"></div>
+    </a>
+    <h1 align="center">Welcome to my Pokemon Game!</h1>
+    <h4 align = "center">Click the dot to start the game!</h4>
     {% endblock %}
   </body>
 </html>

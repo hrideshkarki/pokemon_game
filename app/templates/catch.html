@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Catch a Pokémon</h1>
-  <form method="POST" action="{{ url_for('poke_catch') }}">
+  <h1 align="center">Catch a Pokémon</h1>
+  <form method="POST" align = "center" action="{{ url_for('poke_catch') }}">
     {{ form.csrf_token }}
     {{ form.pokemon_name.label }} {{ form.pokemon_name }}
     {% for error in form.pokemon_name.errors %}
       <span style="color: red;">[{{ error }}]</span>
     {% endfor %}
     <br><br>
-    <button type="submit" class="btn btn-primary">Catch!</button>
+    <a type="submit" class="btn btn-primary" href="/catch">Catch</a>
   </form>
 {% endblock %}

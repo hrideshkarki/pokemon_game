@@ -37,26 +37,6 @@ class Pokemon(db.Model):
         self.defense = defense
         self.front_shiny = front_shiny
 
-    def saveToDB(self):
-        db.session.add(self)
-        db.session.commit(self)
-
-    def deletePokemon(self):
-        db.session.delete(self)
-        db.session.commit(self)
-
-    def _attack(self, pokemon):
-        if self.attack > pokemon.defense:
-            pokemon.hp -= self.attack - pokemon.defense
-            db.session.commit()
-            if pokemon.hp < 1:
-                owner = User.query.get(pokemon.user_id)
-                owner.deaths += 1
-                owner2 = User.query.get(self.user_id)
-                owner2.kills += 1
-                db.sessioncommit()
-                pokemon.delete_pokemon()
-
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -80,3 +60,37 @@ class User(db.Model, UserMixin):
 
     def saveChanges(self):
         db.session.commit()
+
+
+class Pokedex(db.Model):
+    __tablename__ = 'pokedex'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    poke_id = db.Column(db.Integer, db.ForeignKey('pokemon.poke_id'), nullable=False)
+    pokemon = db.relationship('Pokemon', backref='pokedex')
+    user = db.relationship('User', backref='pokedex')
+
+    def __init__(self, user_id, poke_id):
+        self.user_id = user_id
+        self.poke_id = poke_id
+    
+    def saveToDB(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def deleteFromDB(self):
+        db.session.delete(self)
+        db.session.commit()
+        
+
+    # def _attack(self, pokemon):
+    #     if self.attack > pokemon.defense:
+    #         pokemon.hp -= self.attack - pokemon.defense
+    #         db.session.commit()
+    #         if pokemon.hp < 1:
+    #             owner = User.query.get(pokemon.user_id)
+    #             owner.deaths += 1
+    #             owner2 = User.query.get(self.user_id)
+    #             owner2.kills += 1
+    #             db.sessioncommit()
+    #             pokemon.delete_pokemon()

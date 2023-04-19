@@ -1,8 +1,26 @@
 body {
-    background-color: #e0e2f1;
-    
-  }
+  background-color: #e0e2f1;
+  background-image: url({{ url_for('static', filename='2.jpg') }});
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  animation: screensaver 1s ease-in-out infinite;
+}
 
+@keyframes screensaver {
+  0% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+}
 
   form {
     position: absolute;
@@ -68,3 +86,4 @@ body {
     background: linear-gradient(to bottom, rgba(147, 216, 109, 0.977), rgba(237, 225, 173, 0.5));
 
   }
+
