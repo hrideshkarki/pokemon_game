@@ -1,0 +1,32 @@
+<!-- battle.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Battle Page</h1>
+
+  <h2>Your Pokemon:</h2>
+  {% if pokemon_data %}
+    <ul>
+      {% for pokemon in pokemon_data %}
+        <li>
+          <a href="{{ url_for('pokemon_card', pokemon_name=pokemon.name) }}">
+            {{ pokemon.name }}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>You don't have any Pokemon yet.</p>
+  {% endif %}
+
+  <h2>Battle Options:</h2>
+  <form action="{{ url_for('battle') }}" method="POST">
+    <input type="submit" name="create_random" value="Create 5 Random Pokemon">
+    <input type="submit" name="challenge_user" value="Challenge User">
+  </form>
+
+  <h2>Battle Results:</h2>
+  {% if result %}
+    <p>{{ result }}</p>
+  {% endif %}
+{% endblock %}

@@ -2,13 +2,13 @@
 
 {% block content %}
   <h1 align="center">Catch a Pokémon</h1>
-  <form method="POST" align = "center" action="{{ url_for('poke_catch') }}">
+  <form method="POST" align="center" action="{{ url_for('poke_catch', poke_id=pokemon_data.get('poke_id', ''), pokemon_name=pokemon_data['name']) }}">
     {{ form.csrf_token }}
     {{ form.pokemon_name.label }} {{ form.pokemon_name }}
     {% for error in form.pokemon_name.errors %}
       <span style="color: red;">[{{ error }}]</span>
     {% endfor %}
     <br><br>
-    <a type="submit" class="btn btn-primary" href="/catch">Catch</a>
+    <button type="submit" class="btn btn-primary">Catch</button>
   </form>
 {% endblock %}

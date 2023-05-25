@@ -5,21 +5,6 @@ import requests
 
 db = SQLAlchemy()
 
-# class Pokemon:
-#     def __init__(self, name):
-#         self.name = name
-#         self.data = self._get_pokemon_data(name)
-
-#     def _get_pokemon_data(self, name):
-#         url = f'https://pokeapi.co/api/v2/pokemon/{name}'
-#         response = requests.get(url)
-#         data = response.json()
-#         return data
-
-#     def get_image_url(self):
-#         return self.data["sprites"]["front_shiny"]
-
-
 class Pokemon(db.Model):
     poke_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(45), nullable = False, unique = True)
@@ -28,14 +13,20 @@ class Pokemon(db.Model):
     attack = db.Column(db.Integer, nullable = False)
     defense = db.Column(db.Integer, nullable = False)
     front_shiny = db.Column(db.String, nullable = False) #not listed in ERD
+    owner = db.relationship('Catcher', backref='pokemon', cascade='all,delete', lazy=True)
 
-    def __init__(self, name, ability, hp, attack, defense, front_shiny):
+    def __init__(self,poke_id, name, ability, hp, attack, defense, front_shiny):
+        self.poke_id = poke_id
         self.name = name
         self.ability = ability
         self.hp = hp
         self.attack = attack
         self.defense = defense
         self.front_shiny = front_shiny
+
+    def save_to_db(self):
+        db.session.add(self)
+        db.session.commit()
 
 
 class User(db.Model, UserMixin):
@@ -46,6 +37,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(100), nullable = False, unique = True)
     password = db.Column(db.String, nullable = False)
     date_created = db.Column(db.DateTime, nullable = False, default=datetime.utcnow())
+    pokemon_caught = db.relationship('Catcher', backref='owner', cascade='all,delete', lazy=True)
 
     def __init__(self, first_name, last_name, username, email, password):
         self.first_name = first_name
@@ -54,43 +46,30 @@ class User(db.Model, UserMixin):
         self.email = email
         self.password = password
 
-    def saveToDB(self):
+    def save_to_db(self):
         db.session.add(self)
         db.session.commit()
 
     def saveChanges(self):
         db.session.commit()
 
+class Catcher(db.Model):
+    __tablename__ = "catcher"
 
-class Pokedex(db.Model):
-    __tablename__ = 'pokedex'
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    poke_id = db.Column(db.Integer, db.ForeignKey('pokemon.poke_id'), nullable=False)
-    pokemon = db.relationship('Pokemon', backref='pokedex')
-    user = db.relationship('User', backref='pokedex')
+    # id = db.Column(db.Integer, primary_key=True, nullable=False)
+    # id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
 
-    def __init__(self, user_id, poke_id):
-        self.user_id = user_id
-        self.poke_id = poke_id
-    
-    def saveToDB(self):
+    owner_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, primary_key=True)
+    pokemon_name = db.Column(db.String(30), db.ForeignKey('pokemon.name'), nullable=False)
+
+    def __init__(self, owner_id, pokemon_name):
+        self.owner_id = owner_id
+        self.pokemon_name = pokemon_name
+
+    def save_to_db(self):
         db.session.add(self)
         db.session.commit()
 
-    def deleteFromDB(self):
+    def delete_from_db(self):
         db.session.delete(self)
         db.session.commit()
-        
-
-    # def _attack(self, pokemon):
-    #     if self.attack > pokemon.defense:
-    #         pokemon.hp -= self.attack - pokemon.defense
-    #         db.session.commit()
-    #         if pokemon.hp < 1:
-    #             owner = User.query.get(pokemon.user_id)
-    #             owner.deaths += 1
-    #             owner2 = User.query.get(self.user_id)
-    #             owner2.kills += 1
-    #             db.sessioncommit()
-    #             pokemon.delete_pokemon()
